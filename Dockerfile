@@ -11,7 +11,9 @@ RUN echo "gemspec :path => '../katello', :development_group => 'katello_dev', :n
 # install system dependencies and gems
 RUN rpm -i https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
 RUN yum install -y libvirt-devel systemd-devel rubygem-qpid_messaging qpid-cpp-client-devel 
-RUN /bin/bash -l -c "cd ~/foreman && bundle install"
+
+# bundle install (omitted due to size)
+# RUN /bin/bash -l -c "cd ~/foreman && bundle install"
 
 # Remove SCL nodejs
 RUN yum remove -y rh-nodejs10*
@@ -24,6 +26,6 @@ RUN yum install -y nodejs
 RUN alias node="/usr/bin/node"
 RUN alias npm="/usr/bin/npm"
 
-# install node packages
-RUN cd ~/foreman/ && npm i
+# install node packages (omitted due to size)
+# RUN cd ~/foreman/ && npm i
 
