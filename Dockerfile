@@ -2,12 +2,13 @@ FROM centos/ruby-25-centos7
 MAINTAINER John Mitsch (jomitsch@redhat.com)
 
 USER root
-WORKDIR ~
+WORKDIR /root
 
-# clone repos
-RUN git clone https://github.com/theforeman/foreman.git ~/foreman
-RUN git clone https://github.com/Katello/katello.git ~/katello
-RUN echo "gemspec :path => '../katello', :development_group => 'katello_dev', :name => 'katello'" >> ~/foreman/bundler.d/katello.rb
+# clone repos and set up
+RUN git clone https://github.com/theforeman/foreman.git
+RUN git clone https://github.com/Katello/katello.git
+RUN echo "gemspec :path => '../katello', :development_group => 'katello_dev', :name => 'katello'" >> foreman/bundler.d/katello.rb
+COPY ./database.yml foreman/config/database.yml
 
 # install system dependencies and gems
 RUN rpm -i https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm

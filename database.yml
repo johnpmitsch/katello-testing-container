@@ -1,0 +1,19 @@
+default: &default
+  adapter: postgresql
+  encoding: UTF8
+  host: db
+  pool: 10
+  username: postgres
+  password: postgres
+
+development:
+  <<: *default
+  database: katello_dev #CHANGE ME
+
+test:
+  <<: *default
+  database: katello_test #CHANGE ME
+
+production:
+  <<: *default
+  database: katello_prod #CHANGE ME
