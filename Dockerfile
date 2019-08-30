@@ -2,18 +2,16 @@ FROM centos/ruby-25-centos7
 MAINTAINER John Mitsch (jomitsch@redhat.com)
 
 USER root
+WORKDIR ~
 
 # clone repos
-RUN cd ~ && git clone https://github.com/theforeman/foreman.git
-RUN cd ~ && git clone https://github.com/Katello/katello.git
+RUN git clone https://github.com/theforeman/foreman.git ~/foreman
+RUN git clone https://github.com/Katello/katello.git ~/katello
 RUN echo "gemspec :path => '../katello', :development_group => 'katello_dev', :name => 'katello'" >> ~/foreman/bundler.d/katello.rb
 
 # install system dependencies and gems
 RUN rpm -i https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
 RUN yum install -y libvirt-devel systemd-devel rubygem-qpid_messaging qpid-cpp-client-devel 
-
-# bundle install (omitted due to size)
-# RUN /bin/bash -l -c "cd ~/foreman && bundle install"
 
 # Remove SCL nodejs
 RUN yum remove -y rh-nodejs10*
@@ -26,6 +24,5 @@ RUN yum install -y nodejs
 RUN alias node="/usr/bin/node"
 RUN alias npm="/usr/bin/npm"
 
-# install node packages (omitted due to size)
-# RUN cd ~/foreman/ && npm i
-
+# Use correct $PATH
+ENV PATH "/opt/rh/rh-ruby25/root/usr/local/bin:/opt/rh/rh-ruby25/root/usr/bin:/opt/app-root/src/bin:/opt/app-root/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
