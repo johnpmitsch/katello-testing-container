@@ -23,7 +23,7 @@ end
 
 Dir.chdir("#{ROOT_DIR}/foreman") do
   STDOUT.puts "Installing gems"
-  `#{RUBY_SCL} bundle install --without=development --jobs=5 `
+  `#{RUBY_SCL} bundle install --without=test --without=development --jobs=5 `
   STDOUT.puts "Installing node packages"
   `npm install`
   `#{RUBY_SCL} bundle exec rake db:migrate`

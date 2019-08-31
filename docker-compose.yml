@@ -15,3 +15,4 @@ app:
     - db
   environment:
     RAILS_ENV: production
+    NODE_ENV: production
