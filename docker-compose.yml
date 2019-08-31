@@ -10,7 +10,8 @@ db:
 app:
   image: jomitsch/katello-testing-container
   ports:
-    - "8080:8080"
+    - "5000:5000"
+    - "3808:3808"
   links:
     - db
   environment:
