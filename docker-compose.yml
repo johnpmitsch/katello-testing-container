@@ -1,7 +1,7 @@
 db:
   image: postgres:9.2.23-alpine
   ports:
-    - "8080:8080"
+    - "5432:5432"
   restart: always
   environment:
     POSTGRES_PASSWORD: postgres
@@ -10,18 +10,8 @@ db:
 app:
   image: jomitsch/katello-testing-container
   ports:
-    - "3000:3000"
+    - "8080:8080"
   links:
     - db
-  volumes_from:
-    - bundle_cache
   environment:
     RAILS_ENV: production
-
-bundle_cache:
-  container_name: rails_bundle_cache
-  image: cogniteev/echo
-  command: echo 'Data Container for Bundler'
-  volumes:
-    - bundle_store:/usr/local/bundle
-
