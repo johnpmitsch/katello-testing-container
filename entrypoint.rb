@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
 ROOT_DIR = "/root"
+RUBY_SCL = "scl enable rh-ruby25 --"
 
 Dir.chdir("#{ROOT_DIR}/foreman") do
   `git fetch --all`
@@ -22,9 +23,9 @@ end
 
 Dir.chdir("#{ROOT_DIR}/foreman") do
   STDOUT.puts "Installing gems"
-  `scl enable rh-ruby25 -- bundle install`
+  `#{RUBY_SCL} bundle install --without=development --jobs=5 `
   STDOUT.puts "Installing node packages"
   `npm install`
-  `scl enable rh-ruby25 -- bundle exec rake db:migrate`
-  `scl enable rh-ruby25 -- bundle exec foreman start`
+  `#{RUBY_SCL} bundle exec rake db:migrate`
+  `#{RUBY_SCL} bundle exec foreman start`
 end
