@@ -28,6 +28,6 @@ RUN alias npm="/usr/bin/npm"
 # Use correct $PATH
 ENV PATH "/opt/rh/rh-ruby25/root/usr/local/bin:/opt/rh/rh-ruby25/root/usr/bin:/opt/app-root/src/bin:/opt/app-root/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
-COPY ./entrypoint.sh /usr/bin/entrypoint
+COPY ./entrypoint.rb /usr/local/bin/entrypoint
 
-ENTRYPOINT entrypoint
+ENTRYPOINT ["scl", "enable", "rh-ruby25", "--", "entrypoint"]
