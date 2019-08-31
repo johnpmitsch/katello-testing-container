@@ -10,6 +10,10 @@ RUN git clone https://github.com/Katello/katello.git
 RUN echo "gemspec :path => '../katello', :development_group => 'katello_dev', :name => 'katello'" >> foreman/bundler.d/katello.rb
 COPY ./database.yml foreman/config/database.yml
 
+# Use production environment
+ENV RAILS_ENV production
+ENV NODE_ENV production
+
 # install system dependencies and gems
 RUN rpm -i https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
 RUN yum install -y libvirt-devel systemd-devel rubygem-qpid_messaging qpid-cpp-client-devel 
@@ -29,7 +33,7 @@ RUN alias npm="/usr/bin/npm"
 ENV PATH "/opt/rh/rh-ruby25/root/usr/local/bin:/opt/rh/rh-ruby25/root/usr/bin:/opt/app-root/src/bin:/opt/app-root/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
 # install dependencies
-RUN /bin/bash -l -c "cd /root/foreman && scl enable rh-ruby25 -- bundle install"
+RUN /bin/bash -l -c "cd /root/foreman && scl enable rh-ruby25 -- bundle install --jobs=5"
 RUN cd /root/foreman && npm install
 
 COPY ./entrypoint.rb /usr/local/bin/entrypoint
