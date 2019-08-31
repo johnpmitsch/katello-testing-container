@@ -1,11 +1,27 @@
+db:
+  image: postgres:9.2.23-alpine
+  ports:
+    - "8080:8080"
+  restart: always
+  environment:
+    POSTGRES_PASSWORD: postgres
+    POSTGRES_DB: katello_prod
+
 app:
   image: jomitsch/katello-testing-container
-  command: "cd ~/foreman && bundle exec foreman start "
   ports:
     - "3000:3000"
   links:
-    - postgres
-postgres:
-  image: postgres:9.2.23-alpine
-  ports:
-    - "5432:5432"
+    - db
+  volumes_from:
+    - bundle_cache
+  environment:
+    RAILS_ENV: production
+
+bundle_cache:
+  container_name: rails_bundle_cache
+  image: cogniteev/echo
+  command: echo 'Data Container for Bundler'
+  volumes:
+    - bundle_store:/usr/local/bundle
+

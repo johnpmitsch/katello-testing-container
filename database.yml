@@ -8,12 +8,12 @@ default: &default
 
 development:
   <<: *default
-  database: katello_dev #CHANGE ME
+  database: katello_dev
 
 test:
   <<: *default
-  database: katello_test #CHANGE ME
+  database: katello_test
 
 production:
   <<: *default
-  database: katello_prod #CHANGE ME
+  database: katello_prod
